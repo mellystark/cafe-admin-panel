@@ -12,6 +12,7 @@ import { RequireAdmin } from "./auth/RequireAdmin";
 import AdminLayout from "./admin/AdminLayout";
 import CategoryAdminPage from "./admin/CategoryAdminPage";
 import ProductAdminPage from "./admin/ProductAdminPage";
+import OrderAdminPage from "./admin/OrderAdminPage";
 
 import { useCustomerStore } from "./store/customerStore";
 
@@ -57,6 +58,7 @@ function App() {
             <Route index element={<Navigate to="/admin/categories" replace />} />
             <Route path="categories" element={<CategoryAdminPage />} />
             <Route path="products" element={<ProductAdminPage />} />
+            <Route path="orders" element={<OrderAdminPage />} />
           </Route>
 
           {/* ===================== */}

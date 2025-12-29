@@ -26,6 +26,16 @@ export default function AdminLayout() {
           >
             Products
           </NavLink>
+
+          <NavLink
+            to="/admin/orders"
+            style={({ isActive }) => ({
+              textDecoration: "none",
+              fontWeight: isActive ? "700" : "400",
+            })}
+          >
+            Orders
+          </NavLink>
         </nav>
       </aside>
 
