@@ -197,3 +197,6 @@ Navigate to `http://localhost:5173` - you will be redirected to `/menu`.
 2. Verify localStorage keys are correct: `customer_cart` and `customerId`
 3. Check browser console for localStorage errors
 
+
+
+

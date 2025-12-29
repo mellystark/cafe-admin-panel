@@ -71,3 +71,6 @@ const CartSummary = ({ cart, onIncrease, onDecrease, onRemove }) => {
 
 export default CartSummary;
 
+
+
+

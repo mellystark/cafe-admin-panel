@@ -29,3 +29,6 @@ const CategoryList = ({ categories, selectedCategoryId, onSelectCategory, loadin
 
 export default CategoryList;
 
+
+
+

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import apiClient from '../axios';
 import './AdminPage.css';
 
-const AdminPage = () => {
+const CategoryAdminPage = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -219,8 +219,7 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
-
+export default CategoryAdminPage;
 
 
 

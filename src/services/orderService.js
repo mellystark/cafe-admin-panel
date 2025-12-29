@@ -1,32 +1,48 @@
-import customerApiClient from '../api/customerAxios';
+// src/services/orderService.js
+import { publicHttp } from "../api/publicHttp";
+import { useCustomerStore } from "../store/customerStore";
 
-/**
- * Create a new order (PUBLIC endpoint)
- * 
- * @param {Object} params
- * @param {string} params.customerId
- * @param {string} params.addressText
- * @param {number|null} params.tableNumber
- * @param {Array<{productId: string, quantity: number}>} params.items
- */
-export const createOrder = async ({
-  customerId,
-  productId,
-  quantity,
-  addressText
-}) => {
-  const requestBody = {
-    customerId,
-    productId,
-    quantity,
-    addressText
+export const createOrder = async (payload) => {
+  const backendCustomerId =
+    useCustomerStore.getState().backendCustomerId;
+
+  const res = await publicHttp.post("/order/api/Order", {
+    ...payload,
+    customerId: backendCustomerId, // 🔥 kritik düzeltme
+  });
+
+  return res.data;
+};
+
+export const createOrderFromCart = (cartItems, addressText) => {
+  console.log("🔥 createOrderFromCart CALLED");
+  const backendCustomerId =
+    useCustomerStore.getState().backendCustomerId;
+
+  const firstItem = cartItems[0];
+
+  const payload = {
+    customerId: backendCustomerId,
+    productId: firstItem.id,
+    productName: firstItem.name,
+    quantity: firstItem.quantity,
+    unitPrice: firstItem.price,
+    addressText,
   };
 
-  const response = await customerApiClient.post(
-    '/order/api/Order',
-    requestBody
+  console.log("🟢 CREATE ORDER PAYLOAD:", payload);
+
+  return publicHttp.post("/order/api/Order", payload);
+};
+
+export const fetchOrdersByCustomer = async () => {
+  const backendCustomerId =
+    useCustomerStore.getState().backendCustomerId;
+
+  const res = await publicHttp.get(
+    `/order/api/Order/customer/${backendCustomerId}`
   );
 
-  return response.data;
+  return res.data;
 };
 

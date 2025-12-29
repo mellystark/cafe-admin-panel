@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchCategories, fetchProductsByCategory } from '../services/menuService';
-import { getCart, saveCart } from '../utils/cartStorage';
 import CategoryList from '../components/CategoryList';
 import ProductList from '../components/ProductList';
 import './MenuPage.css';
+import { getCustomerId } from "../utils/customer";
+import { useCartStore } from "../store/cartStore";
+
 
 const MenuPage = () => {
   const [categories, setCategories] = useState([]);
@@ -15,15 +17,18 @@ const MenuPage = () => {
   const [productsLoading, setProductsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const [cartCount, setCartCount] = useState(0);
+  const cartCount = useCartStore((s) => s.items.length);
+
 
   const navigate = useNavigate();
+
+  console.log("CUSTOMER ID:", getCustomerId());
 
   // ------------------------------
   // INITIAL LOAD
   // ------------------------------
   useEffect(() => {
-    setCartCount(getCart().length);
+
 
     const loadCategories = async () => {
       try {
@@ -63,25 +68,23 @@ const MenuPage = () => {
   // ------------------------------
   // ADD TO CART
   // ------------------------------
+  const addToCart = useCartStore((s) => s.addToCart);
+
   const handleAddToCart = (product) => {
-    const cart = getCart();
-    const existingItem = cart.find((item) => item.id === product.id);
+    console.log("CART PAYLOAD:", {
+      id: product.id,
+      name: product.ad,
+      price: product.fiyat,
+    });
 
-    let updatedCart;
 
-    if (existingItem) {
-      updatedCart = cart.map((item) =>
-        item.id === product.id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-    } else {
-      updatedCart = [...cart, { ...product, quantity: 1 }];
-    }
-
-    saveCart(updatedCart);
-    setCartCount(updatedCart.length);
+    addToCart({
+      id: product.id,          // ⚠️ MUTLAKA id
+      name: product.ad,
+      price: product.fiyat,
+    });
   };
+
 
   // ------------------------------
   // RENDER
@@ -91,12 +94,21 @@ const MenuPage = () => {
       <header className="menu-header">
         <h1>Cafe Menu</h1>
 
-        <button
-          className="cart-button"
-          onClick={() => navigate('/cart')}
-        >
-          🛒 Cart ({cartCount})
-        </button>
+        <div className="menu-header-actions">
+          <button
+            className="cart-button"
+            onClick={() => navigate('/orders')}
+          >
+            📦 Siparişlerim
+          </button>
+
+          <button
+            className="cart-button"
+            onClick={() => navigate('/cart')}
+          >
+            🛒 Cart ({cartCount})
+          </button>
+        </div>
       </header>
 
       {error && <div className="error-message">{error}</div>}
@@ -128,3 +140,6 @@ const MenuPage = () => {
 };
 
 export default MenuPage;
+
+
+

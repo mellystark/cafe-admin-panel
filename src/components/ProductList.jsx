@@ -43,3 +43,6 @@ const ProductList = ({ products, onAddToCart, loading }) => {
 
 export default ProductList;
 
+
+
+
