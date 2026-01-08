@@ -10,3 +10,4 @@ export const fetchProductsByCategory = async (categoryId) => {
   return res.data || [];
 };
 
+

@@ -88,50 +88,53 @@ const CartPage = () => {
   return (
     <div className="cart-page">
       <header className="cart-header">
-        <h1>Your Cart</h1>
+        <h1>Sepetim</h1>
         <button
           className="back-button"
           onClick={() => navigate("/menu")}
         >
-          Back to Menu
+          Menüye Dön
         </button>
       </header>
 
       {error && <div className="error-message">{error}</div>}
 
-      <CartSummary
-        cart={cart}
-        onIncrease={increase}
-        onDecrease={decrease}
-        onRemove={remove}
-      />
+      <div className="cart-content-wrapper">
+        <CartSummary
+          cart={cart}
+          onIncrease={increase}
+          onDecrease={decrease}
+          onRemove={remove}
+        />
 
-      <form className="checkout-form" onSubmit={handleCheckout}>
-        <h2>Delivery Information</h2>
+        <form className="checkout-form" onSubmit={handleCheckout}>
+          <h2>Sipariş Bilgileri</h2>
 
-        <div className="form-group">
-          <label htmlFor="addressText">Delivery Address</label>
-          <textarea
-            id="addressText"
-            value={addressText}
-            onChange={(e) => setAddressText(e.target.value)}
-            placeholder="Enter your delivery address"
-            rows="3"
-            className="form-textarea"
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="addressText">Teslimat Adresi</label>
+            <textarea
+              id="addressText"
+              value={addressText}
+              onChange={(e) => setAddressText(e.target.value)}
+              placeholder="Teslimat adresinizi giriniz"
+              rows="4"
+              className="form-textarea"
+            />
+          </div>
 
-        <button
-          type="submit"
-          className="checkout-button"
-          disabled={loading}
-        >
-          {loading ? "Placing Order..." : "Place Order"}
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="checkout-button"
+            disabled={loading}
+          >
+            {loading ? "Sipariş Veriliyor..." : "Siparişi Onayla"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 
 export default CartPage;
+
 

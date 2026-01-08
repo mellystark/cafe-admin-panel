@@ -163,6 +163,28 @@ const MyOrdersPage = () => {
     return total > 0 ? total : null;
   };
 
+  const getStatusLabel = (status) => {
+    const statusMap = {
+      0: "Created",
+      1: "Preparing",
+      2: "Ready",
+      3: "Delivered",
+      4: "Cancelled",
+    };
+    return statusMap[status] || "Created";
+  };
+
+  const getStatusClass = (status) => {
+    const statusClassMap = {
+      0: "status-created",
+      1: "status-preparing",
+      2: "status-ready",
+      3: "status-delivered",
+      4: "status-cancelled",
+    };
+    return statusClassMap[status] || "status-created";
+  };
+
   /* ===========================
      RENDER
   =========================== */
@@ -215,13 +237,22 @@ const MyOrdersPage = () => {
               total,
             });
 
+            const orderStatus = order?.status ?? 0;
+            const statusLabel = getStatusLabel(orderStatus);
+            const statusClass = getStatusClass(orderStatus);
+
             return (
               <div key={id} className="order-card">
-                {createdAtLabel && (
-                  <div className="order-date-header">
-                    {createdAtLabel}
-                  </div>
-                )}
+                <div className="order-header">
+                  {createdAtLabel && (
+                    <div className="order-date-header">
+                      {createdAtLabel}
+                    </div>
+                  )}
+                  <span className={`order-status-badge ${statusClass}`}>
+                    {statusLabel}
+                  </span>
+                </div>
 
                 <div className="order-products">
                   {items.length > 0 ? (
@@ -267,7 +298,7 @@ const MyOrdersPage = () => {
                 {order?.id && (
                   <div className="order-meta">
                     <span className="order-id">
-                      Sipariş No: {order.id.slice(0, 8)}…
+                      Sipariş No: {order.id.slice(0, 8).toUpperCase()}…
                     </span>
                   </div>
                 )}

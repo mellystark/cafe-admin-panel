@@ -15,15 +15,33 @@ const ProductList = ({ products, onAddToCart, loading }) => {
       <div className="product-grid">
         {products.map((product) => (
           <div key={product.id} className="product-card">
+            {product.resimUrl ? (
+              <div className="product-image-container">
+                <img
+                  src={product.resimUrl}
+                  alt={product.ad || product.name || 'Product'}
+                  className="product-image"
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                    e.target.nextSibling.style.display = "flex";
+                  }}
+                />
+                <div className="product-image-placeholder" style={{ display: "none" }}>
+                  📦
+                </div>
+              </div>
+            ) : (
+              <div className="product-image-container">
+                <div className="product-image-placeholder">📦</div>
+              </div>
+            )}
             <div className="product-info">
               <h3 className="product-name">
-                {/* Adjust field name based on actual Product DTO (e.g., product.ad, product.name, product.urunAdi) */}
                 {product.ad || product.name || product.urunAdi || 'Product'}
               </h3>
               {product.aciklama && <p className="product-description">{product.aciklama}</p>}
               {product.description && <p className="product-description">{product.description}</p>}
               <p className="product-price">
-                {/* Adjust field name based on actual Product DTO (e.g., product.fiyat, product.price) */}
                 {product.fiyat !== undefined ? `₺${product.fiyat.toFixed(2)}` : ''}
                 {product.price !== undefined ? `₺${product.price.toFixed(2)}` : ''}
               </p>
@@ -42,7 +60,3 @@ const ProductList = ({ products, onAddToCart, loading }) => {
 };
 
 export default ProductList;
-
-
-
-
